@@ -94,7 +94,7 @@ public class VendaDAO {
      */
     private List<Produto> buscarProdutosPorVenda(int idVenda) {
         List<Produto> lista = new ArrayList<>();
-        String sql = "SELECT p.id, p.nome, p.preco, p.estoque " +
+        String sql = "SELECT p.id, p.nome, p.preco_compra, p.preco_venda, p.estoque " +
                      "FROM produtos p " +
                      "INNER JOIN venda_produtos vp ON p.id = vp.id_produto " +
                      "WHERE vp.id_venda = ?";
@@ -106,8 +106,8 @@ public class VendaDAO {
                 Produto p = new Produto(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getDouble("precoCompra"),
-                        rs.getDouble("precoVenda"),
+                        rs.getDouble("preco_compra"),
+                        rs.getDouble("preco_venda"),
                         rs.getInt("estoque")
                 );
                 lista.add(p);

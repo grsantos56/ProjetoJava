@@ -1,8 +1,8 @@
 package app;
 
 public class Main{
-
-    public static void main(String[] args) {
-        new view.TelaCadastroUsuario();
-    }
+	
+public static void main(String[] args) {
+		new view.Login();
+	}
 }

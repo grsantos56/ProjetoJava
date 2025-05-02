@@ -7,7 +7,7 @@ import java.sql.*;
 public class VendedorDAO {
 
     public boolean autenticar(String usuario, String senha) {
-        String sql = "SELECT * FROM usuarios_admin WHERE usuario = ? AND senha = ?";
+        String sql = "SELECT * FROM vendedor WHERE usuario = ? AND senha = ?";
         try (PreparedStatement st = DB.getConnection().prepareStatement(sql)) {
             st.setString(1, usuario);
             st.setString(2, senha);
@@ -21,7 +21,7 @@ public class VendedorDAO {
     }
     
     public boolean cadastrar(String usuario, String senha) {
-        String sql = "INSERT INTO usuarios_admin (usuario, senha) VALUES (?, ?)";
+        String sql = "INSERT INTO vendedor (usuario, senha) VALUES (?, ?)";
         try (PreparedStatement st = DB.getConnection().prepareStatement(sql)) {
             st.setString(1, usuario);
             st.setString(2, senha);
@@ -33,7 +33,7 @@ public class VendedorDAO {
     }
 
     public String recuperarSenha(String usuario) {
-        String sql = "SELECT senha FROM usuarios_admin WHERE usuario = ?";
+        String sql = "SELECT senha FROM vendedor WHERE usuario = ?";
         try (PreparedStatement st = DB.getConnection().prepareStatement(sql)) {
             st.setString(1, usuario);
             ResultSet rs = st.executeQuery();

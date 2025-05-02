@@ -83,7 +83,7 @@ public class ProdutoDAO {
      * Deleta um produto do banco com base no ID.
      */
     public void deletar(int id) {
-        String sql = "DELETE FROM produtos WHERE id = ?";
+    	String sql = "UPDATE produtos SET ativo = FALSE WHERE id = ?";
         try (PreparedStatement st = DB.getConnection().prepareStatement(sql)) {
             st.setInt(1, id);
             st.executeUpdate();
