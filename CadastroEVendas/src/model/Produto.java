@@ -11,7 +11,8 @@ public class Produto {
     // Atributos privados respeitando o encapsulamento
     private Integer id;
     private String nome;
-    private Double preco;
+    private Double precoCompra;
+    private Double precoVenda;
     private Integer estoque;
 
     // ------------------------------------------------------------------------------------
@@ -32,10 +33,11 @@ public class Produto {
      * @param preco    Preço do produto
      * @param estoque  Quantidade em estoque
      */
-    public Produto(Integer id, String nome, Double preco, Integer estoque) {
+    public Produto(Integer id, String nome, Double precoCompra, Double precoVenda, Integer estoque) {
         this.id = id;
         this.nome = nome;
-        this.preco = preco;
+        this.precoCompra = precoCompra;
+        this.precoVenda = precoVenda;
         this.setEstoque(estoque); // usa o setter para aplicar a validação
     }
 
@@ -59,12 +61,20 @@ public class Produto {
         this.nome = nome;
     }
 
-    public Double getPreco() {
-        return preco;
+    public Double getPrecoCompra() {
+        return precoCompra;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
+    public void setPrecoCompra(Double precoCompra) {
+        this.precoCompra = precoCompra;
+    }
+    
+    public Double getPrecoVenda() {
+        return precoVenda;
+    }
+
+    public void setPrecoVenda(Double precoVenda) {
+        this.precoVenda = precoVenda;
     }
 
     public Integer getEstoque() {
@@ -113,6 +123,6 @@ public class Produto {
      */
     @Override
     public String toString() {
-        return "Produto: id=" + id + ", nome=" + nome + ", preco=R$" + preco + ", estoque=" + estoque;
+        return "Produto: id=" + id + ", nome=" + nome + ", preco de compra=R$" + precoCompra + ", preco de venda=R$" + precoVenda + ", estoque=" + estoque;
     }
 }

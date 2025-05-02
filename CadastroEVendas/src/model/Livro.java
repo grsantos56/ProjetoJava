@@ -25,8 +25,8 @@ public class Livro extends Produto {
      * @param estoque  Quantidade em estoque
      * @param autor    Nome do autor do livro
      */
-    public Livro(Integer id, String nome, Double preco, Integer estoque, String autor) {
-        super(id, nome, preco, estoque); // chama o construtor da superclasse Produto
+    public Livro(Integer id, String nome, Double precoCompra, Double precoVenda, Integer estoque, String autor) {
+        super(id, nome, precoCompra, precoVenda, estoque); // chama o construtor da superclasse Produto
         this.autor = autor;
     }
 

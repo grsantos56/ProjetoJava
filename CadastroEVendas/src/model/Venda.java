@@ -10,9 +10,17 @@ import java.util.List;
 public class Venda {
     
     // Atributos privados para manter o princípio do encapsulamento
+
+    /** Identificador único da venda */
     private Integer id;
+
+    /** Cliente que realizou a compra */
     private Cliente cliente;
+
+    /** Lista de produtos comprados */
     private List<Produto> produtos;
+
+    /** Data em que a venda foi realizada */
     private LocalDate dataVenda;
 
     // ------------------------------------------------------------------------------------
@@ -88,7 +96,7 @@ public class Venda {
      */
     public double calcularTotal() {
         return produtos.stream()
-                       .mapToDouble(Produto::getPreco) // pega o preço de cada produto
+                       .mapToDouble(Produto::getPrecoVenda) // pega o preço de cada produto
                        .sum(); // soma todos os preços
     }
 
@@ -117,4 +125,3 @@ public class Venda {
         return "Venda: id=" + id + ", cliente=" + cliente + ", produtos=" + produtos;
     }
 }
-

@@ -106,7 +106,8 @@ public class VendaDAO {
                 Produto p = new Produto(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getDouble("preco"),
+                        rs.getDouble("precoCompra"),
+                        rs.getDouble("precoVenda"),
                         rs.getInt("estoque")
                 );
                 lista.add(p);

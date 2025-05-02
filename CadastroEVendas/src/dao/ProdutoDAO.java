@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Classe responsável por realizar operações de CRUD no banco de dados
- * para a entidade Produto.
+ * para a entidade Produto, agora com preço de compra e venda.
  */
 public class ProdutoDAO {
 
@@ -18,17 +18,18 @@ public class ProdutoDAO {
      * Insere um novo produto no banco de dados.
      */
     public void inserir(Produto produto) {
-        String sql = "INSERT INTO produtos (nome, preco, estoque, autor) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO produtos (nome, preco_compra, preco_venda, estoque, autor) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement st = DB.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             st.setString(1, produto.getNome());
-            st.setDouble(2, produto.getPreco());
-            st.setInt(3, produto.getEstoque());
-            st.setString(4, null); // autor nulo por padrão (usado apenas por Livro)
+            st.setDouble(2, produto.getPrecoCompra());
+            st.setDouble(3, produto.getPrecoVenda());
+            st.setInt(4, produto.getEstoque());
+            st.setString(5, null); // autor nulo por padrão (usado apenas por Livro)
             st.executeUpdate();
 
             ResultSet rs = st.getGeneratedKeys();
             if (rs.next()) {
-                produto.setId(rs.getInt(1)); // atribui o ID gerado
+                produto.setId(rs.getInt(1));
             }
             DB.closeResultSet(rs);
         } catch (SQLException e) {
@@ -48,7 +49,8 @@ public class ProdutoDAO {
                 Produto p = new Produto(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getDouble("preco"),
+                        rs.getDouble("preco_compra"),
+                        rs.getDouble("preco_venda"),
                         rs.getInt("estoque")
                 );
                 DB.closeResultSet(rs);
@@ -64,12 +66,13 @@ public class ProdutoDAO {
      * Atualiza os dados de um produto existente.
      */
     public void atualizar(Produto produto) {
-        String sql = "UPDATE produtos SET nome=?, preco=?, estoque=? WHERE id=?";
+        String sql = "UPDATE produtos SET nome=?, preco_compra=?, preco_venda=?, estoque=? WHERE id=?";
         try (PreparedStatement st = DB.getConnection().prepareStatement(sql)) {
             st.setString(1, produto.getNome());
-            st.setDouble(2, produto.getPreco());
-            st.setInt(3, produto.getEstoque());
-            st.setInt(4, produto.getId());
+            st.setDouble(2, produto.getPrecoCompra());
+            st.setDouble(3, produto.getPrecoVenda());
+            st.setInt(4, produto.getEstoque());
+            st.setInt(5, produto.getId());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new DbException("Erro ao atualizar produto: " + e.getMessage());
@@ -101,7 +104,8 @@ public class ProdutoDAO {
                 Produto p = new Produto(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getDouble("preco"),
+                        rs.getDouble("preco_compra"),
+                        rs.getDouble("preco_venda"),
                         rs.getInt("estoque")
                 );
                 lista.add(p);
@@ -123,6 +127,21 @@ public class ProdutoDAO {
             st.executeUpdate();
         } catch (SQLException e) {
             throw new DbException("Erro ao atualizar estoque: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Atualiza apenas os preços de compra e venda de um produto.
+     */
+    public void atualizarPrecos(int idProduto, double novoPrecoCompra, double novoPrecoVenda) {
+        String sql = "UPDATE produtos SET preco_compra = ?, preco_venda = ? WHERE id = ?";
+        try (PreparedStatement st = DB.getConnection().prepareStatement(sql)) {
+            st.setDouble(1, novoPrecoCompra);
+            st.setDouble(2, novoPrecoVenda);
+            st.setInt(3, idProduto);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException("Erro ao atualizar preços: " + e.getMessage());
         }
     }
 }

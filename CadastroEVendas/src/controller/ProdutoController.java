@@ -12,8 +12,8 @@ public class ProdutoController {
 
     private ProdutoDAO dao = new ProdutoDAO();
 
-    public void cadastrarProduto(String nome, double preco, int estoque) {
-        Produto produto = new Produto(null, nome, preco, estoque);
+    public void cadastrarProduto(String nome, Double precoCompra, Double precoVenda, Integer estoque) {
+        Produto produto = new Produto(null, nome, precoCompra, precoVenda, estoque);
         dao.inserir(produto);
     }
 
@@ -35,5 +35,9 @@ public class ProdutoController {
 
     public void atualizarEstoque(int idProduto, int novoEstoque) {
         dao.atualizarEstoque(idProduto, novoEstoque);
+    }
+    
+    public void atualizarPrecos(int idProduto, double novoPrecoCompra, double novoPrecoVenda) {
+        dao.atualizarPrecos(idProduto, novoPrecoCompra, novoPrecoVenda);
     }
 }
