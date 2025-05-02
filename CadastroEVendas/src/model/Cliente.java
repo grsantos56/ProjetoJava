@@ -55,7 +55,7 @@ public class Cliente {
      */
     public void setNome(String nome) {
         if (nome != null && nome.trim().length() >= 2) {
-            this.nome = nome.trim();
+            this.nome = nome.trim().toUpperCase();
         } else {
             throw new IllegalArgumentException("O nome deve conter pelo menos 2 letras.");
         }
@@ -106,7 +106,7 @@ public class Cliente {
      */
     public void setEndereco(String endereco) {
         if (endereco != null && endereco.trim().length() >= 5) {
-            this.endereco = endereco.trim();
+            this.endereco = endereco.trim().toUpperCase();
         } else {
             throw new IllegalArgumentException("O endereço deve conter pelo menos 5 caracteres.");
         }
@@ -144,6 +144,6 @@ public class Cliente {
      */
     @Override
     public String toString() {
-        return "Cliente: nome=" + nome + ", cpf=" + cpf;
+        return "Cliente: nome=" + nome + ", cpf=" + cpf + " endereco=" + endereco;
     }
 }
