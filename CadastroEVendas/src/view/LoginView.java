@@ -5,19 +5,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.VendedorDAO;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
-public class Login extends JFrame {
+public class LoginView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -31,7 +35,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					LoginView frame = new LoginView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +47,7 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
+	public LoginView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 494);
 		contentPane = new JPanel();
@@ -77,6 +81,7 @@ public class Login extends JFrame {
 		btnLogin.setFont(new Font("Verdana", Font.BOLD, 16));
 		
 		JLabel lblNewLabel_2 = new JLabel("Não tem uma conta?");
+		lblNewLabel_2.setForeground(new Color(255, 0, 0));
 		lblNewLabel_2.setBounds(161, 335, 146, 18);
 		lblNewLabel_2.setFont(new Font("Verdana", Font.PLAIN, 14));
 		
@@ -110,6 +115,33 @@ public class Login extends JFrame {
 					.addComponent(lblNewLabel)
 					.addGap(20))
 		);
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String usuario = textUsuario.getText();
+				String senha = new String(passwordSenha.getPassword());
+
+				VendedorDAO dao = new VendedorDAO();
+				boolean autenticado = dao.autenticar(usuario, senha);
+
+				if (autenticado) {
+					TelaPrincipalView tela = new TelaPrincipalView();
+					tela.setVisible(true);
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!", "Erro de Autenticação", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CadastroView cadastro = new CadastroView();
+				cadastro.setVisible(true);
+				dispose(); // Fecha a tela de login
+			}
+		});
+
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(null);
 		contentPane.add(lblNewLabel_1);

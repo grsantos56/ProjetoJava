@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class TelaPrincipal extends JFrame {
+public class TelaPrincipalView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -26,7 +26,7 @@ public class TelaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPrincipal frame = new TelaPrincipal();
+					TelaPrincipalView frame = new TelaPrincipalView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class TelaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaPrincipal() {
+	public TelaPrincipalView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 494);
 		contentPane = new JPanel();
@@ -80,9 +80,23 @@ public class TelaPrincipal extends JFrame {
 		btnClientes.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
 		
 		JButton btnProdutos = new JButton("PRODUTOS");
+		btnProdutos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProdutoView produto = new ProdutoView();
+				produto.setVisible(true);
+				dispose();
+			}
+		});
 		btnProdutos.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
 		
 		JButton btnSair = new JButton("SAIR");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginView login = new LoginView();
+				login.setVisible(true);
+				dispose();
+			}
+		});
 		btnSair.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(

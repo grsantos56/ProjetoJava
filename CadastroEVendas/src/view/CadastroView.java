@@ -9,15 +9,16 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
-public class Cadastro extends JFrame {
+public class CadastroView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -32,7 +33,7 @@ public class Cadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cadastro frame = new Cadastro();
+					CadastroView frame = new CadastroView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +45,7 @@ public class Cadastro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Cadastro() {
+	public CadastroView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 494);
 		contentPane = new JPanel();
@@ -70,7 +71,7 @@ public class Cadastro extends JFrame {
 		lblNewLabel_1_1.setFont(new Font("Verdana", Font.PLAIN, 14));
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(177, 371, 119, 27);
+		btnCadastrar.setBounds(274, 371, 119, 27);
 		btnCadastrar.setFont(new Font("Verdana", Font.BOLD, 14));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -99,6 +100,44 @@ public class Cadastro extends JFrame {
 					.addComponent(lblNewLabel)
 					.addContainerGap(22, Short.MAX_VALUE))
 		);
+		btnCadastrar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String usuario = textUsuario.getText().trim();
+		        String senha = new String(passwordSenha.getPassword());
+		        String confirmarSenha = new String(passwordField.getPassword());
+
+		        if (usuario.isEmpty() || senha.isEmpty() || confirmarSenha.isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+		            return;
+		        }
+
+		        if (!senha.equals(confirmarSenha)) {
+		            JOptionPane.showMessageDialog(null, "As senhas não coincidem!");
+		            return;
+		        }
+
+		        dao.VendedorDAO dao = new dao.VendedorDAO();
+		        boolean sucesso = dao.cadastrar(usuario, senha);
+
+		        if (sucesso) {
+		            JOptionPane.showMessageDialog(null, "Vendedor cadastrado com sucesso!");
+		            // limpa os campos
+		            textUsuario.setText("");
+		            passwordSenha.setText("");
+		            passwordField.setText("");
+		            
+		        }
+				if (sucesso) {
+					LoginView Login = new LoginView();
+					Login.setVisible(true);
+					dispose(); 
+				}
+		        else {
+		            JOptionPane.showMessageDialog(null, "Erro ao cadastrar. Tente novamente.");
+		        }
+		    }
+		});
+
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(null);
 		contentPane.add(lblNewLabel_1);
@@ -117,6 +156,18 @@ public class Cadastro extends JFrame {
 		passwordField.setFont(new Font("Verdana", Font.PLAIN, 14));
 		passwordField.setBounds(15, 302, 468, 43);
 		contentPane.add(passwordField);
+		
+		JButton btnVoltar = new JButton("VOLTAR");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginView login2 = new LoginView();
+				login2.setVisible(true);
+				dispose();
+			}
+		});
+		btnVoltar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnVoltar.setBounds(72, 371, 119, 27);
+		contentPane.add(btnVoltar);
 		setResizable(false);
 	    setLocationRelativeTo(null);
 	}

@@ -30,7 +30,7 @@ public class ProdutoController {
     }
 
     public List<Produto> listarProdutos() {
-        return dao.listarTodos();
+        return dao.listarOrdenado();
     }
 
     public void atualizarEstoque(int idProduto, int novoEstoque) {

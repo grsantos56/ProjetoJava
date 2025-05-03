@@ -2,6 +2,7 @@ package dao;
 
 import db.DB;
 import db.DbException;
+import model.Livro;
 import model.Produto;
 
 import java.sql.*;
@@ -18,13 +19,14 @@ public class ProdutoDAO {
      * Insere um novo produto no banco de dados.
      */
     public void inserir(Produto produto) {
-        String sql = "INSERT INTO produtos (nome, preco_compra, preco_venda, estoque, autor) VALUES (?, ?, ?, ?, ?)";
+    	Livro livro = new Livro();
+        String sql = "INSERT INTO produtos (nome, preco_compra, preco_venda, estoque) VALUES (?, ?, ?, ?)";
         try (PreparedStatement st = DB.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             st.setString(1, produto.getNome());
             st.setDouble(2, produto.getPrecoCompra());
             st.setDouble(3, produto.getPrecoVenda());
             st.setInt(4, produto.getEstoque());
-            st.setString(5, null); // autor nulo por padrão (usado apenas por Livro)
+// autor nulo por padrão (usado apenas por Livro)
             st.executeUpdate();
 
             ResultSet rs = st.getGeneratedKeys();
@@ -95,18 +97,18 @@ public class ProdutoDAO {
     /**
      * Retorna todos os produtos cadastrados.
      */
-    public List<Produto> listarTodos() {
+    public List<Produto> listarOrdenado() {
         List<Produto> lista = new ArrayList<>();
-        String sql = "SELECT * FROM produtos";
+        String sql = "SELECT * FROM produtos WHERE ativo = TRUE ORDER BY nome ASC";
         try (Statement st = DB.getConnection().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Produto p = new Produto(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getDouble("preco_compra"),
-                        rs.getDouble("preco_venda"),
-                        rs.getInt("estoque")
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getDouble("preco_compra"),
+                    rs.getDouble("preco_venda"),
+                    rs.getInt("estoque")
                 );
                 lista.add(p);
             }
@@ -115,6 +117,7 @@ public class ProdutoDAO {
         }
         return lista;
     }
+
 
     /**
      * Atualiza o estoque de um produto específico.
