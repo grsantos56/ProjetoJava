@@ -1,223 +1,171 @@
 package view;
 
+import controller.LivroController;
+import controller.ProdutoController;
+import model.Produto;
+import model.Livro;
+
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
-
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
-import model.Livro;
-import model.Produto;
-import dao.ProdutoDAO;
-import dao.LivroDAO;
-
 public class ProdutoView extends JFrame {
+    private JTextField txtNome, txtPrecoCompra, txtPrecoVenda, txtEstoque, txtAutor;
+    private JCheckBox chkLivro;
+    private JTextArea txtAreaProdutos;
+    private ProdutoController controller;
 
-    private static final long serialVersionUID = 1L;
-    private JTextField txtNome, txtPrecoCompra, txtPrecoVenda, txtEstoque, txtId;
-    private JTextArea textAreaProdutos;
-    private JTextField txtAutor;
     public ProdutoView() {
-        setTitle("Gerenciar Produtos");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 600, 624);
-        getContentPane().setLayout(null);
+        controller = new ProdutoController();
 
-        JLabel lblTitulo = new JLabel("GERENCIAR PRODUTOS");
-        lblTitulo.setFont(new Font("Verdana", Font.BOLD, 20));
-        lblTitulo.setBounds(160, 10, 300, 30);
-        getContentPane().add(lblTitulo);
+        setTitle("Cadastro de Produtos");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        JLabel lblId = new JLabel("ID:");
-        lblId.setBounds(30, 60, 150, 20);
-        getContentPane().add(lblId);
+        // Painel de formulário
+        JPanel painelForm = new JPanel(new GridLayout(7, 2, 5, 5));
 
-        txtId = new JTextField();
-        txtId.setBounds(30, 80, 91, 25);
-        getContentPane().add(txtId);
-
-        JLabel lblNome = new JLabel("Nome:");
-        lblNome.setBounds(30, 110, 150, 20);
-        getContentPane().add(lblNome);
-
+        painelForm.add(new JLabel("Nome:"));
         txtNome = new JTextField();
-        txtNome.setBounds(30, 130, 162, 25);
-        getContentPane().add(txtNome);
+        painelForm.add(txtNome);
 
-        JLabel lblPrecoCompra = new JLabel("Preço de Compra:");
-        lblPrecoCompra.setBounds(30, 160, 150, 20);
-        getContentPane().add(lblPrecoCompra);
-
+        painelForm.add(new JLabel("Preço de Compra:"));
         txtPrecoCompra = new JTextField();
-        txtPrecoCompra.setBounds(30, 180, 162, 25);
-        getContentPane().add(txtPrecoCompra);
+        painelForm.add(txtPrecoCompra);
 
-        JLabel lblPrecoVenda = new JLabel("Preço de Venda:");
-        lblPrecoVenda.setBounds(30, 210, 150, 20);
-        getContentPane().add(lblPrecoVenda);
-
+        painelForm.add(new JLabel("Preço de Venda:"));
         txtPrecoVenda = new JTextField();
-        txtPrecoVenda.setBounds(30, 230, 162, 25);
-        getContentPane().add(txtPrecoVenda);
+        painelForm.add(txtPrecoVenda);
 
-        JLabel lblEstoque = new JLabel("Estoque:");
-        lblEstoque.setBounds(30, 260, 150, 20);
-        getContentPane().add(lblEstoque);
-
+        painelForm.add(new JLabel("Estoque:"));
         txtEstoque = new JTextField();
-        txtEstoque.setBounds(30, 280, 162, 25);
-        getContentPane().add(txtEstoque);
+        painelForm.add(txtEstoque);
+
+        chkLivro = new JCheckBox("É um livro?");
+        painelForm.add(chkLivro);
+        painelForm.add(new JLabel("")); // espaço
+
+        painelForm.add(new JLabel("Autor:"));
+        txtAutor = new JTextField();
+        txtAutor.setEnabled(false);
+        painelForm.add(txtAutor);
+
+        chkLivro.addActionListener(e -> txtAutor.setEnabled(chkLivro.isSelected()));
+
+        add(painelForm, BorderLayout.NORTH);
+
+        // Painel de botões
+        JPanel painelBotoes = new JPanel(new FlowLayout());
 
         JButton btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setBounds(370, 77, 118, 30);
-        getContentPane().add(btnCadastrar);
-
         JButton btnAtualizar = new JButton("Atualizar");
-        btnAtualizar.setBounds(370, 127, 118, 30);
-        getContentPane().add(btnAtualizar);
+        JButton btnExcluir = new JButton("Excluir");
+        JButton btnVisualizar = new JButton("Visualizar");
 
-        JButton btnModificar = new JButton("Modificar");
-        btnModificar.setBounds(370, 177, 118, 30);
-        getContentPane().add(btnModificar);
+        painelBotoes.add(btnCadastrar);
+        painelBotoes.add(btnAtualizar);
+        painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnVisualizar);
 
-        JButton btnExcluir = new JButton("Deletar");
-        btnExcluir.setBounds(370, 227, 118, 30);
-        getContentPane().add(btnExcluir);
+        add(painelBotoes, BorderLayout.CENTER);
 
-        JButton btnListar = new JButton("Ver Produtos");
-        btnListar.setBounds(370, 277, 118, 30);
-        getContentPane().add(btnListar);
+        // Área de texto para exibir produtos
+        txtAreaProdutos = new JTextArea(12, 50);
+        txtAreaProdutos.setEditable(false);
+        add(new JScrollPane(txtAreaProdutos), BorderLayout.SOUTH);
 
-        JButton btnSair = new JButton("SAIR");
-        btnSair.setForeground(new Color(255, 255, 255));
-        btnSair.setFont(new Font("Verdana", Font.PLAIN, 12));
-        btnSair.setBackground(new Color(255, 81, 81));
-        btnSair.setBounds(247, 541, 74, 30);
-        getContentPane().add(btnSair);
-
-        JLabel lblAutor = new JLabel("Autor (se for livro):");
-        lblAutor.setBounds(201, 110, 200, 20);
-        getContentPane().add(lblAutor);
-
-        txtAutor = new JTextField();
-        txtAutor.setBounds(200, 130, 160, 25);
-        getContentPane().add(txtAutor);
-        
-        textAreaProdutos = new JTextArea();
-        JScrollPane scrollPane = new JScrollPane(textAreaProdutos);
-        scrollPane.setBounds(30, 330, 520, 200);
-        getContentPane().add(scrollPane);
-
-        // --- Ações dos botões ---
-
-        ProdutoDAO dao = new ProdutoDAO();
-        LivroDAO ldao = new LivroDAO();
-        
+        // Ações
         btnCadastrar.addActionListener(e -> {
-            Produto p = criarProduto();
-            if (p != null) {
-                dao.inserir(p);
-                JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso.");
-                limparCampos();
-            }
-        });
-
-        btnAtualizar.addActionListener(e -> {
             try {
-                int id = Integer.parseInt(txtId.getText());
-                Produto p = criarProduto();
-                if (p != null) {
-                    p.setId(id);
-                    dao.atualizar(p);
-                    JOptionPane.showMessageDialog(this, "Produto atualizado.");
-                    limparCampos();
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "ID inválido.");
-            }
-        });
+                String nome = txtNome.getText();
+                double precoCompra = Double.parseDouble(txtPrecoCompra.getText());
+                double precoVenda = Double.parseDouble(txtPrecoVenda.getText());
+                int estoque = Integer.parseInt(txtEstoque.getText());
 
-        btnModificar.addActionListener(e -> {
-            try {
-                int id = Integer.parseInt(txtId.getText());
-                Produto p = dao.buscarPorId(id);
-                if (p != null) {
-                    txtNome.setText(p.getNome());
-                    txtPrecoCompra.setText(p.getPrecoCompra().toString());
-                    txtPrecoVenda.setText(p.getPrecoVenda().toString());
-                    txtEstoque.setText(p.getEstoque().toString());
-                    if (p instanceof Livro) {
-                        txtAutor.setText(((Livro) p).getAutor());
-                    } else {
-                        txtAutor.setText("");
-                    }
+                if (chkLivro.isSelected()) {
+                    String autor = txtAutor.getText();
+                    LivroController livroController = new LivroController();
+                    livroController.cadastrarProduto(nome, precoCompra, precoVenda, estoque, autor);
                 } else {
-                    JOptionPane.showMessageDialog(this, "Produto não encontrado.");
+                    ProdutoController produtoController = new ProdutoController();
+                    produtoController.cadastrarProduto(nome, precoCompra, precoVenda, estoque);
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "ID inválido.");
-            }
-        });
-
-
-        btnExcluir.addActionListener(e -> {
-            try {
-                int id = Integer.parseInt(txtId.getText());
-                dao.deletar(id);
-                JOptionPane.showMessageDialog(this, "Produto deletado.");
+                JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!");
                 limparCampos();
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "ID inválido.");
+                listarProdutos();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar: " + ex.getMessage());
+            }
+        });
+        btnAtualizar.addActionListener(e -> {
+            String idStr = JOptionPane.showInputDialog("Digite o ID do produto a atualizar:");
+            if (idStr != null && !idStr.isBlank()) {
+                try {
+                    int id = Integer.parseInt(idStr);
+                    String nome = txtNome.getText();
+                    double precoCompra = Double.parseDouble(txtPrecoCompra.getText());
+                    double precoVenda = Double.parseDouble(txtPrecoVenda.getText());
+                    int estoque = Integer.parseInt(txtEstoque.getText());
+
+                    if (chkLivro.isSelected()) {
+                        String autor = txtAutor.getText();
+                        Livro livro = new Livro(id, nome, precoCompra, precoVenda, estoque, autor);
+                        controller.atualizarProduto(livro); // Use o método correto para atualizar Livro
+                    } else {
+                        Produto produto = new Produto(id, nome, precoCompra, precoVenda, estoque);
+                        controller.atualizarProduto(produto); // Use o método correto para atualizar Produto
+                    }
+
+                    JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
+                    limparCampos();
+                    listarProdutos();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + ex.getMessage());
+                }
+            }
+        });
+        btnExcluir.addActionListener(e -> {
+            String idStr = JOptionPane.showInputDialog("Digite o ID do produto a excluir:");
+            if (idStr != null && !idStr.isBlank()) {
+                try {
+                    int id = Integer.parseInt(idStr);
+                    controller.excluirProduto(id);
+                    JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
+                    listarProdutos();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao excluir: " + ex.getMessage());
+                }
             }
         });
 
-        btnListar.addActionListener(e -> {
-            textAreaProdutos.setText("");
-                // Listar todos os produtos
-                List<Produto> produtos = dao.listarOrdenado();
-                for (Produto p : produtos) {
-                    textAreaProdutos.append(p.toString() + "\n");
-                }
-        });
+        btnVisualizar.addActionListener(e -> listarProdutos());
 
-
-        setResizable(false);
+        pack();
         setLocationRelativeTo(null);
+        setVisible(true);
     }
 
-    private Produto criarProduto() {
-        try {
-            String nome = txtNome.getText().toUpperCase();
-            double precoCompra = Double.parseDouble(txtPrecoCompra.getText());
-            double precoVenda = Double.parseDouble(txtPrecoVenda.getText());
-            int estoque = Integer.parseInt(txtEstoque.getText());
-			String autor = txtAutor.getText().trim().toUpperCase();
-
-            if (!autor.isEmpty()) {
-                return new Livro(null, nome, precoCompra, precoVenda, estoque, autor);
-            } else {
-                return new Produto(null, nome, precoCompra, precoVenda, estoque);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Preencha todos os campos corretamente.");
-            return null;
+    private void listarProdutos() {
+        List<Produto> lista = controller.listarProdutos();
+        txtAreaProdutos.setText("");
+        for (Produto p : lista) {
+            txtAreaProdutos.append(p.toString() + "\n");
         }
     }
 
-
     private void limparCampos() {
-        txtId.setText("");
         txtNome.setText("");
         txtPrecoCompra.setText("");
         txtPrecoVenda.setText("");
         txtEstoque.setText("");
         txtAutor.setText("");
+        chkLivro.setSelected(false);
+        txtAutor.setEnabled(false);
     }
 
     public static void main(String[] args) {
-        new ProdutoView().setVisible(true);
+        SwingUtilities.invokeLater(ProdutoView::new);
     }
-    
 }

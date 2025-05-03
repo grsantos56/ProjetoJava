@@ -2,7 +2,6 @@ package dao;
 
 import db.DB;
 import db.DbException;
-import model.Livro;
 import model.Produto;
 
 import java.sql.*;
@@ -19,7 +18,6 @@ public class ProdutoDAO {
      * Insere um novo produto no banco de dados.
      */
     public void inserir(Produto produto) {
-    	Livro livro = new Livro();
         String sql = "INSERT INTO produtos (nome, preco_compra, preco_venda, estoque) VALUES (?, ?, ?, ?)";
         try (PreparedStatement st = DB.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             st.setString(1, produto.getNome());
