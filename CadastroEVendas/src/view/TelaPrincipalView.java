@@ -9,6 +9,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -39,6 +41,7 @@ public class TelaPrincipalView extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipalView() {
+		setTitle("NAVARA'S STORE");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 494);
 		contentPane = new JPanel();
@@ -75,6 +78,10 @@ public class TelaPrincipalView extends JFrame {
 		JButton btnClientes = new JButton("CLIENTES");
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ClienteView cliente = new ClienteView();
+				cliente.setVisible(true);
+				dispose();
+		
 			}
 		});
 		btnClientes.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
@@ -90,13 +97,17 @@ public class TelaPrincipalView extends JFrame {
 		btnProdutos.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
 		
 		JButton btnSair = new JButton("SAIR");
-		btnSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				LoginView login = new LoginView();
-				login.setVisible(true);
-				dispose();
-			}
+		btnSair.addActionListener(e -> {
+		    // Exibe uma janela de confirmação
+		    int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
+		    if (opcao == JOptionPane.YES_OPTION) {
+		        // Se o usuário clicar em 'Sim', abre a LoginView e fecha a janela atual
+		        LoginView login = new LoginView();
+		        login.setVisible(true);
+		        this.dispose();  // Fecha a janela atual (ProdutoView)
+		    }
 		});
+
 		btnSair.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
