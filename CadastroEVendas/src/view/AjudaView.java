@@ -6,11 +6,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Tela de Ajuda do sistema de Cadastro e Vendas.
+ * Exibe informações sobre as funcionalidades do sistema e explica o uso de cada tela.
+ */
 public class AjudaView extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
 
+    /**
+     * Método principal para iniciar a aplicação e exibir a tela de ajuda.
+     * Executa a criação e exibição da janela em um thread separado para garantir
+     * a responsividade da interface gráfica.
+     *
+     * @param args argumentos da linha de comando (não utilizados).
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
@@ -22,28 +33,36 @@ public class AjudaView extends JFrame {
         });
     }
 
+    /**
+     * Construtor da classe AjudaView.
+     * Inicializa os componentes da interface gráfica, define o título da janela,
+     * configura o comportamento ao fechar, estabelece as dimensões, impede o
+     * redimensionamento, centraliza a janela na tela e adiciona os elementos visuais
+     * como o título, o texto de ajuda em um JTextArea dentro de um JScrollPane
+     * e um botão para voltar à tela principal.
+     */
     public AjudaView() {
-        setTitle("Ajuda - Sistema de Cadastro e Vendas");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 910, 487);
-        setResizable(false);
-        setLocationRelativeTo(null);
+        setTitle("Ajuda - Sistema de Cadastro e Vendas"); // Define o título da janela.
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Define o comportamento ao fechar a janela (apenas fecha esta janela).
+        setBounds(100, 100, 910, 487); // Define as dimensões iniciais da janela (posição X, posição Y, largura, altura).
+        setResizable(false); // Impede que o usuário redimensione a janela.
+        setLocationRelativeTo(null); // Centraliza a janela na tela.
 
-        contentPane = new JPanel(new BorderLayout(10, 10));
-        contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        setContentPane(contentPane);
+        contentPane = new JPanel(new BorderLayout(10, 10)); // Cria um painel principal com layout BorderLayout e espaçamento entre os componentes.
+        contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Define uma borda vazia ao redor do painel para espaçamento interno.
+        setContentPane(contentPane); // Define o painel principal como o contentPane da JFrame.
 
-        JLabel lblTitulo = new JLabel("COMO USAR O SISTEMA");
-        lblTitulo.setFont(new Font("Verdana", Font.BOLD, 22));
-        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        contentPane.add(lblTitulo, BorderLayout.NORTH);
+        JLabel lblTitulo = new JLabel("COMO USAR O SISTEMA"); // Cria um rótulo com o título da seção de ajuda.
+        lblTitulo.setFont(new Font("Verdana", Font.BOLD, 22)); // Define a fonte do título (Verdana, negrito, tamanho 22).
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER); // Centraliza o texto do título.
+        contentPane.add(lblTitulo, BorderLayout.NORTH); // Adiciona o título ao painel principal na região NORTH.
 
-        // Texto fixo com as funcionalidades + sessão explicativa das telas
+        // Cria um JTextArea para exibir o texto de ajuda com as funcionalidades e explicações das telas.
         JTextArea txtAjuda = new JTextArea();
-        txtAjuda.setEditable(false);
-        txtAjuda.setFont(new Font("Verdana", Font.PLAIN, 16));
-        txtAjuda.setLineWrap(true);
-        txtAjuda.setWrapStyleWord(true);
+        txtAjuda.setEditable(false); // Impede que o usuário edite o texto de ajuda.
+        txtAjuda.setFont(new Font("Verdana", Font.PLAIN, 16)); // Define a fonte do texto de ajuda (Verdana, normal, tamanho 16).
+        txtAjuda.setLineWrap(true); // Permite que as linhas do texto sejam quebradas automaticamente.
+        txtAjuda.setWrapStyleWord(true); // Quebra as linhas nas palavras, evitando cortar palavras no meio.
         txtAjuda.setText(
                 "Este sistema permite realizar as seguintes ações:\n\n" +
                 "- Cadastrar, editar, buscar e excluir clientes.\n" +
@@ -87,21 +106,21 @@ public class AjudaView extends JFrame {
                 "Para visualizar as vendas feitas coloque a data no formato: dia/mês/ano e clique em buscar por período onde vai aparecer as vendas realizadas naquele período de tempo.\n"
         );
 
-        JScrollPane scrollPane = new JScrollPane(txtAjuda);
-        contentPane.add(scrollPane, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(txtAjuda); // Adiciona o JTextArea a um JScrollPane para permitir a rolagem do texto se necessário.
+        contentPane.add(scrollPane, BorderLayout.CENTER); // Adiciona o JScrollPane (contendo o texto de ajuda) ao painel principal na região CENTER.
 
-        JButton btnFechar = new JButton("Voltar à Tela Principal");
-        btnFechar.setFont(new Font("Verdana", Font.PLAIN, 14));
-        btnFechar.addActionListener(new ActionListener() {
+        JButton btnFechar = new JButton("Voltar à Tela Principal"); // Cria um botão para voltar à tela principal.
+        btnFechar.setFont(new Font("Verdana", Font.PLAIN, 14)); // Define a fonte do botão.
+        btnFechar.addActionListener(new ActionListener() { // Adiciona um ActionListener ao botão para lidar com o evento de clique.
             public void actionPerformed(ActionEvent e) {
-                TelaPrincipalView telaPrincipal = new TelaPrincipalView();
-                telaPrincipal.setVisible(true);
-                dispose();
+                TelaPrincipalView telaPrincipal = new TelaPrincipalView(); // Cria uma nova instância da TelaPrincipalView.
+                telaPrincipal.setVisible(true); // Exibe a tela principal.
+                dispose(); // Fecha a tela de ajuda atual.
             }
         });
 
-        JPanel panelBotao = new JPanel();
-        panelBotao.add(btnFechar);
-        contentPane.add(panelBotao, BorderLayout.SOUTH);
+        JPanel panelBotao = new JPanel(); // Cria um painel para conter o botão.
+        panelBotao.add(btnFechar); // Adiciona o botão ao painel.
+        contentPane.add(panelBotao, BorderLayout.SOUTH); // Adiciona o painel do botão ao painel principal na região SOUTH.
     }
 }
