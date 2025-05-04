@@ -48,6 +48,7 @@ public class LoginView extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginView() {
+		setTitle("LOGIN");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 494);
 		contentPane = new JPanel();
@@ -119,13 +120,12 @@ public class LoginView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String usuario = textUsuario.getText();
 				String senha = new String(passwordSenha.getPassword());
-
 				VendedorDAO dao = new VendedorDAO();
 				boolean autenticado = dao.autenticar(usuario, senha);
 
 				if (autenticado) {
-					TelaPrincipalView tela = new TelaPrincipalView();
-					tela.setVisible(true);
+					TelaPrincipalView vendas = new TelaPrincipalView();
+					vendas.setVisible(true);
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!", "Erro de Autenticação", JOptionPane.ERROR_MESSAGE);

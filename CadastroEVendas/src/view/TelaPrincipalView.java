@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.Vendedor;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
@@ -72,8 +75,15 @@ public class TelaPrincipalView extends JFrame {
 		);
 		panel.setLayout(gl_panel);
 		
-		JButton btnNewButton = new JButton("VENDAS");
-		btnNewButton.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
+		JButton btnVendas = new JButton("VENDAS");
+		btnVendas.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        VendasView vendas = new VendasView();
+		        vendas.setVisible(true);
+		        dispose();
+		    }
+		});
+		btnVendas.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
 		
 		JButton btnClientes = new JButton("CLIENTES");
 		btnClientes.addActionListener(new ActionListener() {
@@ -116,7 +126,7 @@ public class TelaPrincipalView extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(60)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnVendas, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnClientes, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
 					.addGap(101)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -130,7 +140,7 @@ public class TelaPrincipalView extends JFrame {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
 					.addGap(97)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnVendas, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnProdutos, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
 					.addGap(37)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
