@@ -89,6 +89,13 @@ public class VendasView extends JFrame {
     private Component horizontalStrut_34;
     private Component horizontalStrut_35;
     private JButton btnNewButton_1;
+    private Component horizontalStrut_30;
+    private Component horizontalStrut_36;
+    private Component horizontalStrut_37;
+    private Component horizontalStrut_38;
+    private Component horizontalStrut_39;
+    private Component horizontalStrut_40;
+    private Component horizontalStrut_41;
 
     public VendasView() {
         produtoController = new ProdutoController();
@@ -165,10 +172,6 @@ public class VendasView extends JFrame {
         
         horizontalStrut_16 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_16);
-        lblNomeLoja = new JLabel("NAVARA'S STORE");
-        lblNomeLoja.setForeground(new Color(255, 255, 255));
-        lblNomeLoja.setFont(new Font("Arial", Font.BOLD, 20));
-        panelCabecalho.add(lblNomeLoja);
         
         horizontalStrut_17 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_17);
@@ -181,6 +184,10 @@ public class VendasView extends JFrame {
         
         horizontalStrut_20 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_20);
+        lblNomeLoja = new JLabel("NAVARA'S STORE");
+        lblNomeLoja.setForeground(new Color(255, 255, 255));
+        lblNomeLoja.setFont(new Font("Arial", Font.BOLD, 20));
+        panelCabecalho.add(lblNomeLoja);
         
         horizontalStrut_21 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_21);
@@ -235,6 +242,24 @@ public class VendasView extends JFrame {
         
         horizontalStrut_35 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_35);
+        
+        horizontalStrut_36 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_36);
+        
+        horizontalStrut_37 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_37);
+        
+        horizontalStrut_38 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_38);
+        
+        horizontalStrut_39 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_39);
+        
+        horizontalStrut_40 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_40);
+        
+        horizontalStrut_41 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_41);
         panelCabecalho.add(btnNewButton);
 
         panelCompra = new JPanel();
@@ -336,6 +361,9 @@ public class VendasView extends JFrame {
         			.addGap(5)
         			.addComponent(panelVendasRealizadas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
+        
+        horizontalStrut_30 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_30);
         GroupLayout gl_panelCompra = new GroupLayout(panelCompra);
         gl_panelCompra.setHorizontalGroup(
         	gl_panelCompra.createParallelGroup(Alignment.LEADING)

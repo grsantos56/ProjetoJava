@@ -16,6 +16,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class TelaPrincipalView extends JFrame {
 
@@ -117,6 +118,15 @@ public class TelaPrincipalView extends JFrame {
 		});
 
 		btnSair.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
+		
+		JButton btnAjuda = new JButton("AJUDA");
+		btnAjuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AjudaView ajuda = new AjudaView();
+				ajuda.setVisible(true);
+				dispose();
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -131,12 +141,17 @@ public class TelaPrincipalView extends JFrame {
 						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnProdutos, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
 					.addGap(65))
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnAjuda))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addGap(97)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnAjuda)
+					.addGap(68)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnVendas, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnProdutos, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
