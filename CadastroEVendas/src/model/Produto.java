@@ -123,6 +123,6 @@ public class Produto {
      */
     @Override
     public String toString() {
-        return "Produto: id=" + id + ", nome=" + nome + ", preco de compra=R$" + precoCompra + ", preco de venda=R$" + precoVenda + ", estoque=" + estoque;
+        return "Produto: nome=" + nome + ", preco=R$" + precoVenda;
     }
 }

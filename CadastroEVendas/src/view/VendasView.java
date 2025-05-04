@@ -18,13 +18,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.GroupLayout.Alignment;
 
 public class VendasView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
     private JLabel lblNomeLoja;
-    private JLabel lblVendedorAtual;
     private JPanel panelCompra;
     private JLabel lblIdProduto;
     private JTextField txtIdProduto;
@@ -49,7 +49,6 @@ public class VendasView extends JFrame {
     private ProdutoController produtoController;
     private VendaController vendaController;
     private ClienteController clienteController;
-    private String vendedorAtual = "Vendedor";
     private List<Produto> itensVendidos;
     private double totalVenda;
     private Cliente clienteAtual = null;
@@ -84,8 +83,12 @@ public class VendasView extends JFrame {
     private Component horizontalStrut_27;
     private Component horizontalStrut_28;
     private Component horizontalStrut_29;
-    private Component horizontalStrut_30;
     private Component horizontalStrut_31;
+    private Component horizontalStrut_32;
+    private Component horizontalStrut_33;
+    private Component horizontalStrut_34;
+    private Component horizontalStrut_35;
+    private JButton btnNewButton_1;
 
     public VendasView() {
         produtoController = new ProdutoController();
@@ -101,21 +104,16 @@ public class VendasView extends JFrame {
         setTitle("Vendas");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 750, 600); // Aumentei a altura
-        setMinimumSize(new Dimension(1220, 720)); // Definindo tamanho mínimo
+        setMinimumSize(new Dimension(1360, 720)); // Definindo tamanho mínimo
         setLocationRelativeTo(null); // Centraliza a janela na tela
         setResizable(false);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
-        contentPane.setLayout(new BorderLayout(5, 5));
         setContentPane(contentPane);
 
         JPanel panelCabecalho = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelCabecalho.setBackground(new Color(0, 166, 41));
         panelCabecalho.add(Box.createHorizontalStrut(20));
-        lblVendedorAtual = new JLabel("Vendedor: " + vendedorAtual);
-        lblVendedorAtual.setForeground(new Color(255, 255, 255));
-        panelCabecalho.add(lblVendedorAtual);
-        contentPane.add(panelCabecalho, BorderLayout.NORTH);
         
         horizontalStrut = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut);
@@ -158,10 +156,6 @@ public class VendasView extends JFrame {
         
         horizontalStrut_13 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_13);
-        lblNomeLoja = new JLabel("NAVARA'S STORE");
-        lblNomeLoja.setForeground(new Color(255, 255, 255));
-        lblNomeLoja.setFont(new Font("Arial", Font.BOLD, 20));
-        panelCabecalho.add(lblNomeLoja);
         
         horizontalStrut_14 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_14);
@@ -171,6 +165,10 @@ public class VendasView extends JFrame {
         
         horizontalStrut_16 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_16);
+        lblNomeLoja = new JLabel("NAVARA'S STORE");
+        lblNomeLoja.setForeground(new Color(255, 255, 255));
+        lblNomeLoja.setFont(new Font("Arial", Font.BOLD, 20));
+        panelCabecalho.add(lblNomeLoja);
         
         horizontalStrut_17 = Box.createHorizontalStrut(20);
         panelCabecalho.add(horizontalStrut_17);
@@ -225,13 +223,21 @@ public class VendasView extends JFrame {
 				}
         	}
         });
-        panelCabecalho.add(btnNewButton);
         
-        horizontalStrut_30 = Box.createHorizontalStrut(20);
-        panelCabecalho.add(horizontalStrut_30);
+        horizontalStrut_32 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_32);
+        
+        horizontalStrut_33 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_33);
+        
+        horizontalStrut_34 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_34);
+        
+        horizontalStrut_35 = Box.createHorizontalStrut(20);
+        panelCabecalho.add(horizontalStrut_35);
+        panelCabecalho.add(btnNewButton);
 
         panelCompra = new JPanel();
-        panelCompra.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         lblIdProduto = new JLabel("ID Produto:");
         txtIdProduto = new JTextField(10);
@@ -259,25 +265,30 @@ public class VendasView extends JFrame {
                 buscarCliente();
             }
         });
-
-        btnFinalizarVenda = new JButton("Finalizar Venda");
-        btnFinalizarVenda.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                finalizarVenda();
-            }
+        
+                btnFinalizarVenda = new JButton("Finalizar Venda");
+                btnFinalizarVenda.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        finalizarVenda();
+                    }
+                });
+        
+        btnNewButton_1 = new JButton("Cancelar Venda");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente cancelar a venda?", "Confirmação", JOptionPane.YES_NO_OPTION);
+				if (resposta == JOptionPane.YES_OPTION) {
+					itensVendidos.clear();
+					atualizarListaItens();
+					atualizarTotalVenda();
+					tabelaVendas.setVisible(false);
+					clienteAtual = null;
+					txtCpfCliente.setText("");
+					txtDataInicio.setText(""); // Limpa os campos de data
+					txtDataFim.setText("");
+				}				
+        	}
         });
-
-        panelCompra.add(lblIdProduto);
-        panelCompra.add(txtIdProduto);
-        panelCompra.add(btnAdicionarItem);
-        panelCompra.add(scrollPaneItens);
-        panelCompra.add(lblTotalVenda);
-        panelCompra.add(lblCpfCliente);
-        panelCompra.add(txtCpfCliente);
-        panelCompra.add(btnBuscarCliente);
-        panelCompra.add(btnFinalizarVenda);
-
-        contentPane.add(panelCompra, BorderLayout.CENTER);
 
         panelVendasRealizadas = new JPanel(new BorderLayout());
         panelVendasRealizadas.setBorder(BorderFactory.createTitledBorder("Vendas Realizadas"));
@@ -309,8 +320,82 @@ public class VendasView extends JFrame {
         panelFiltroDatas.add(txtDataFim);
         panelFiltroDatas.add(btnBuscarVendasPeriodo);
         panelVendasRealizadas.add(panelFiltroDatas, BorderLayout.NORTH);
-
-        contentPane.add(panelVendasRealizadas, BorderLayout.SOUTH); // Mudado para SOUTH
+        GroupLayout gl_contentPane = new GroupLayout(contentPane);
+        gl_contentPane.setHorizontalGroup(
+        	gl_contentPane.createParallelGroup(Alignment.LEADING)
+        		.addComponent(panelCabecalho, GroupLayout.PREFERRED_SIZE, 1324, GroupLayout.PREFERRED_SIZE)
+        		.addComponent(panelCompra, GroupLayout.PREFERRED_SIZE, 1324, GroupLayout.PREFERRED_SIZE)
+        		.addComponent(panelVendasRealizadas, GroupLayout.PREFERRED_SIZE, 1324, GroupLayout.PREFERRED_SIZE)
+        );
+        gl_contentPane.setVerticalGroup(
+        	gl_contentPane.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_contentPane.createSequentialGroup()
+        			.addComponent(panelCabecalho, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addGap(5)
+        			.addComponent(panelCompra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addGap(5)
+        			.addComponent(panelVendasRealizadas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        );
+        GroupLayout gl_panelCompra = new GroupLayout(panelCompra);
+        gl_panelCompra.setHorizontalGroup(
+        	gl_panelCompra.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(5)
+        			.addComponent(lblIdProduto)
+        			.addGap(5)
+        			.addComponent(txtIdProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addGap(5)
+        			.addComponent(btnAdicionarItem)
+        			.addGap(5)
+        			.addComponent(scrollPaneItens, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addGap(5)
+        			.addComponent(lblTotalVenda)
+        			.addGap(5)
+        			.addComponent(lblCpfCliente)
+        			.addGap(5)
+        			.addComponent(txtCpfCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addGap(5)
+        			.addComponent(btnBuscarCliente)
+        			.addGap(5)
+        			.addComponent(btnFinalizarVenda)
+        			.addGap(5)
+        			.addComponent(btnNewButton_1))
+        );
+        gl_panelCompra.setVerticalGroup(
+        	gl_panelCompra.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(73)
+        			.addComponent(lblIdProduto))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(70)
+        			.addComponent(txtIdProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(68)
+        			.addComponent(btnAdicionarItem))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(5)
+        			.addComponent(scrollPaneItens, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(70)
+        			.addComponent(lblTotalVenda))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(73)
+        			.addComponent(lblCpfCliente))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(70)
+        			.addComponent(txtCpfCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(68)
+        			.addComponent(btnBuscarCliente))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(68)
+        			.addComponent(btnFinalizarVenda))
+        		.addGroup(gl_panelCompra.createSequentialGroup()
+        			.addGap(68)
+        			.addComponent(btnNewButton_1))
+        );
+        panelCompra.setLayout(gl_panelCompra);
+        contentPane.setLayout(gl_contentPane);
 
         setVisible(true);
     }
