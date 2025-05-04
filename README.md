@@ -111,7 +111,14 @@ Para executar este sistema, você precisará ter instalado em sua máquina:
     );
     ```
 
-4.  **Configuração da Conexão:** Certifique-se de que as configurações de conexão com o banco de dados (host, porta, nome do banco de dados, usuário e senha do MySQL) estejam corretamente definidas no código Java do sistema. Geralmente, essas informações são encontradas em arquivos de configuração ou diretamente no código de acesso ao banco de dados.
+4.  **Configuração da Conexão:** Certifique-se de que as configurações de conexão com o banco de dados (host, porta, nome do banco de dados, usuário e senha do MySQL) estejam corretamente definidas no código Java do sistema, e que o servidor do banco de dados esteja em execução. As informações de conexão com o banco de dados estão no arquivo db.properties com o código:
+   ````
+    dburl=jdbc:mysql://localhost:3306/cadastroevendas?useSSL=false&allowPublicKeyRetrieval=true
+    user=gabriel
+    password=123456
+   ````
+Caso tenha outro usuário e senha configurados no banco de dados basta modificar os campos em db.properties
+
 
 ## Como Executar o Sistema
 
