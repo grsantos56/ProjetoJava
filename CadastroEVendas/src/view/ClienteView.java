@@ -4,6 +4,7 @@ import controller.ClienteController;
 import model.Cliente;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Collections;
@@ -23,10 +24,14 @@ public class ClienteView extends JFrame {
         setSize(680, 550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        getContentPane().setLayout(new BorderLayout(10, 10)); 
+
+        JPanel contentPane = new JPanel(new BorderLayout(10, 10));
+        contentPane.setBorder(new EmptyBorder(15, 15, 15, 15)); // Adiciona espaçamento nas bordas
+        setContentPane(contentPane);
         setResizable(false);
 
-        JPanel painel = new JPanel(new GridLayout(8, 2, 10, 10)); // Melhor espaçamento
+        JPanel painel = new JPanel(new GridLayout(8, 2, 10, 10)); // Melhor espaçamento entre os componentes
+        contentPane.add(painel, BorderLayout.NORTH);
 
         painel.add(new JLabel("Nome:"));
         txtNome = new JTextField();
@@ -78,9 +83,7 @@ public class ClienteView extends JFrame {
         areaClientes.setEditable(false);
         areaClientes.setFont(new Font("Monospaced", Font.PLAIN, 12));
         JScrollPane scroll = new JScrollPane(areaClientes);
-
-        getContentPane().add(painel, BorderLayout.NORTH);
-        getContentPane().add(scroll, BorderLayout.CENTER);
+        contentPane.add(scroll, BorderLayout.CENTER);
     }
 
     private void cadastrarCliente(ActionEvent e) {
