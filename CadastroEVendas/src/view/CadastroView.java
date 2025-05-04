@@ -66,7 +66,7 @@ public class CadastroView extends JFrame {
         panel.setLayout(null); // Define o layout do painel de título como null.
 
         JLabel lblNewLabel = new JLabel("ÁREA DE CADASTRO"); // Cria um rótulo para o título da tela.
-        lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 20)); // Define a fonte do título.
+        lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 19)); // Define a fonte do título.
         lblNewLabel.setForeground(new Color(255, 255, 255)); // Define a cor do texto do título (branco).
         lblNewLabel.setBounds(132, 19, 220, 25); // Define as dimensões e a posição do rótulo do título.
         panel.add(lblNewLabel); // Adiciona o rótulo do título ao painel de título.
