@@ -14,6 +14,7 @@ public class Produto {
     private Double precoCompra;
     private Double precoVenda;
     private Integer estoque;
+    private String autor;
 
     // ------------------------------------------------------------------------------------
     // Construtores

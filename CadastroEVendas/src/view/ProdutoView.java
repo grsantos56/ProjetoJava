@@ -2,6 +2,8 @@ package view;
 
 import controller.LivroController;
 import controller.ProdutoController;
+import db.DB;
+import db.DbException;
 import model.Produto;
 import model.Livro;
 
@@ -9,6 +11,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoView extends JFrame {
@@ -147,14 +153,73 @@ public class ProdutoView extends JFrame {
         setVisible(true);
     }
 
-    private void listarProdutos() {
-        List<Produto> lista = controller.listarProdutos();
-        txtAreaProdutos.setText("");
-        for (Produto p : lista) {
-            txtAreaProdutos.append(p.toString() + "\n");
+    public List<Produto> listarOrdenado() {
+        List<Produto> lista = new ArrayList<>();
+        String sql = "SELECT * FROM produtos WHERE ativo = TRUE ORDER BY nome ASC";
+        try (Statement st = DB.getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                String autor = rs.getString("autor");
+                Produto p;
+                if (autor != null) {
+                    // É um livro
+                    p = new Livro(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getDouble("preco_compra"),
+                        rs.getDouble("preco_venda"),
+                        rs.getInt("estoque"),
+                        autor
+                    );
+                } else {
+                    // É um produto comum
+                    p = new Produto(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getDouble("preco_compra"),
+                        rs.getDouble("preco_venda"),
+                        rs.getInt("estoque")
+                    );
+                }
+                lista.add(p);
+            }
+        } catch (SQLException e) {
+            throw new DbException("Erro ao listar produtos: " + e.getMessage());
         }
+        return lista;
     }
 
+
+    
+    private void listarProdutos() {
+        List<Produto> lista = listarOrdenado(); // usa o método local
+        txtAreaProdutos.setText("");
+
+        for (Produto p : lista) {
+            if (p instanceof Livro) {
+                Livro l = (Livro) p;
+                txtAreaProdutos.append(
+                    "Livro\nID: " + l.getId() +
+                    "\nNome: " + l.getNome() +
+                    "\nPreço de Compra: " + l.getPrecoCompra() +
+                    "\nPreço de Venda: " + l.getPrecoVenda() +
+                    "\nEstoque: " + l.getEstoque() +
+                    "\nAutor: " + l.getAutor() +
+                    "\n---------------------------\n"
+                );
+            } else {
+                txtAreaProdutos.append(
+                    "Produto\nID: " + p.getId() +
+                    "\nNome: " + p.getNome() +
+                    "\nPreço de Compra: " + p.getPrecoCompra() +
+                    "\nPreço de Venda: " + p.getPrecoVenda() +
+                    "\nEstoque: " + p.getEstoque() +
+                    "\n---------------------------\n"
+                );
+            }
+        }
+    }
+    
     private void limparCampos() {
         txtNome.setText("");
         txtPrecoCompra.setText("");
