@@ -1,0 +1,42 @@
+CREATE DATABASE cadastroevendas;
+
+USE cadastroevendas;
+
+CREATE TABLE clientes (
+    cpf VARCHAR(11) PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(11) NOT NULL,
+    endereco VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE produtos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    estoque INT NOT NULL,
+    autor VARCHAR(100),
+    preco_compra DECIMAL(10, 2) NOT NULL,
+    preco_venda DECIMAL(10, 2) NOT NULL,
+    ativo TINYINT(1) DEFAULT 1
+);
+
+CREATE TABLE vendas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cpf_cliente VARCHAR(11),
+    data_venda DATE NOT NULL,
+    FOREIGN KEY (cpf_cliente) REFERENCES clientes(cpf)
+);
+
+CREATE TABLE venda_produtos (
+    id_venda INT,
+    id_produto INT,
+    quantidade INT NOT NULL DEFAULT 1,
+    FOREIGN KEY (id_venda) REFERENCES vendas(id),
+    FOREIGN KEY (id_produto) REFERENCES produtos(id),
+    PRIMARY KEY (id_venda, id_produto)
+);
+
+CREATE TABLE usuarios_admin (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL
+);
