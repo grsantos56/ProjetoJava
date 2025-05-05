@@ -354,6 +354,8 @@ public class VendasView extends JFrame {
         btnBuscarVendasPeriodo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 buscarVendasPorPeriodo(); // Chama o método para buscar vendas por período
+                txtDataInicio.setText(""); // Limpa o campo de data de início
+                txtDataFim.setText(""); // Limpa o campo de data de fim
             }
         });
         panelFiltroDatas.add(lblDataInicio); // Adiciona o rótulo de data de início ao painel
