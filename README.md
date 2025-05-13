@@ -111,7 +111,7 @@ Para executar este sistema, você precisará ter instalado em sua máquina:
     );
     ```
 
-4.  **Configuração da Conexão:** Certifique-se de que as configurações de conexão com o banco de dados (host, porta, nome do banco de dados, usuário e senha do MySQL) estejam corretamente definidas no código Java do sistema, e que o servidor do banco de dados esteja em execução. As informações de conexão com o banco de dados estão no arquivo db.properties com o código:
+4.  **Configuração da Conexão:** Certifique-se de ter o arquivo necessário para fazer a conexão do java com o banco de dados disponível para donwload em <a href="https://dev.mysql.com/downloads/connector/j/">https://dev.mysql.com/downloads/connector/j/</a>. Verifique também se as configurações de conexão com o banco de dados (host, porta, nome do banco de dados, usuário e senha do MySQL) estejam corretamente definidas no código Java do sistema, e que o servidor do banco de dados esteja em execução. As informações de conexão com o banco de dados estão no arquivo db.properties com o código:
    ````
     dburl=jdbc:mysql://localhost:3306/cadastroevendas?useSSL=false&allowPublicKeyRetrieval=true
     user=gabriel
